@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { verifyToken } = require("../middleware/authMiddleware");
 const {
   createGoal,
   getGoalsByUserId,
@@ -7,10 +8,10 @@ const {
   deleteGoal,
 } = require("../controllers/goalController");
 
-router.post("/", createGoal);
-router.get("/:user_id", getGoalsByUserId);
-router.put("/:id", updateGoal);
-router.delete("/:id", deleteGoal);
+router.post("/", verifyToken, createGoal);
+router.get("/:user_id", verifyToken, getGoalsByUserId);
+router.put("/:id", verifyToken, updateGoal);
+router.delete("/:id", verifyToken, deleteGoal);
 
 // TODO: pries testuojant su postmanu nepamirsti paleisti postgres
 
