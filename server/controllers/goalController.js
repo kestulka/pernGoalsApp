@@ -32,10 +32,14 @@ const updateGoal = async (req, res) => {
   try {
     const { id } = req.params;
     const { goal_description } = req.body;
-    await pool.query("UPDATE goals SET goal_description = $1 WHERE id = $2", [
+    // gera praktika checkinti giliau ar goal is tikro buvo updatintas ir keitesi eilutes db:
+    const result = await pool.query("UPDATE goals SET goal_description = $1 WHERE id = $2", [
       goal_description,
       id,
     ]);
+    if (result.rowCount === 0){
+      return res.status(404).send("Goal not found or no change in goal description.")
+    }
     res.json("Goal was updated");
   } catch (error) {
     console.error(error.message);
