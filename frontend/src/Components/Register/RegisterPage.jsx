@@ -17,7 +17,8 @@ function RegisterPage() {
     e.preventDefault();
     try {
       // siunciam POST requesta i backo API
-      const response = await fetch("/api/users/", {
+      // butina specifyinti tikslu adresa is kurio fetchinama
+      const response = await fetch("http://localhost:5000/api/users/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
