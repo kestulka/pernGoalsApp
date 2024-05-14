@@ -17,6 +17,14 @@ CREATE TABLE users(
     goals JSONB[] DEFAULT '{}'::JSON[]
 );
 
+CREATE TABLE goal_categories(
+    id SERIAL PRIMARY KEY,
+    name varchar(255) UNIQUE NOT NULL
+);
+
+INSERT INTO goal_categories (name) VALUES ('daily'), ('weekly'), ('monthly'), ('yearly');
+
+ALTER TABLE goals ADD COLUMN category_id INT, ADD CONSTRAINT fk_goal_category FOREIGN KEY (category_id) REFERENCES goal_categories(id);
 
 
 

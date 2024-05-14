@@ -2,10 +2,10 @@ const pool = require("../db");
 
 const createGoal = async (req, res) => {
   try {
-    const { user_id, goal_description } = req.body;
+    const { user_id, goal_description, category_id } = req.body;
     const newGoal = await pool.query(
-      "INSERT INTO goals (user_id, goal_description) VALUES($1, $2) RETURNING *",
-      [user_id, goal_description],
+      "INSERT INTO goals (user_id, goal_description, category_id) VALUES($1, $2, $3) RETURNING *",
+      [user_id, goal_description, category_id],
     );
     res.json(newGoal.rows[0]);
   } catch (error) {
@@ -58,4 +58,26 @@ const deleteGoal = async (req, res) => {
   }
 };
 
-module.exports = { createGoal, getGoalsByUserId, updateGoal, deleteGoal };
+const addGoalCategory = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const newCategory = await pool.query("INSERT INTO goal_categories (name) VALUES($1) RETURNING *", [name]);
+    res.json(newCategory.rows[0])
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error")
+  }
+}
+
+const getGoalCategories = async (req, res) => {
+  try {
+    const allCategories = await pool.query("SELECT * FROM goal_categories");
+    res.json(allCategories.rows);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+}
+
+
+module.exports = { createGoal, getGoalsByUserId, updateGoal, deleteGoal, addGoalCategory, getGoalCategories };
