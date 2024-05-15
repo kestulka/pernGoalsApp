@@ -9,8 +9,8 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleBackToMain = () => {
-    navigate("/");
+  const handleBackToRegister = () => {
+    navigate("/register");
   };
 
   const handleLogin = async (e) => {
@@ -58,7 +58,7 @@ function LoginPage() {
         />
         <button type="submit">Login</button>
       </form>
-      <button onClick={handleBackToMain}>Back to Main</button>
+      <button onClick={handleBackToRegister}>Register an account</button>
     </div>
   );
 }

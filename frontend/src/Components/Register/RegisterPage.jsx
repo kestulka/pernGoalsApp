@@ -61,7 +61,7 @@ function RegisterPage() {
           type="submit"
           onClick={handleRegister}
         >
-          Register an account
+          Create
         </button>
         <button
           className={styles.backBtn}
