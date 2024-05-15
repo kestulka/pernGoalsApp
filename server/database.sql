@@ -24,9 +24,16 @@ CREATE TABLE goal_categories(
 
 INSERT INTO goal_categories (name) VALUES ('daily'), ('weekly'), ('monthly'), ('yearly');
 
+INSERT INTO users (username, password, role) VALUES ('admin', '123', 'admin');
+
 ALTER TABLE goals ADD COLUMN category_id INT, ADD CONSTRAINT fk_goal_category FOREIGN KEY (category_id) REFERENCES goal_categories(id);
 
+-- jei gaunamas error terminale: value too long for type character varying(50) :
 
+ALTER TABLE users
+ALTER COLUMN username TYPE VARCHAR(255),
+ALTER COLUMN password TYPE VARCHAR(255),
+ALTER COLUMN role TYPE VARCHAR(255);
 
 -- for myself:
 

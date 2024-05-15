@@ -1,1 +1,1 @@
-# useriu kategorijos: by defaultu yra: daily, weekly, monthly, yearly. Adminas turi galeti prideti nauja kategorija if needed
+### front branche yra problema su getGoalsByUserId funkcija, kuri pagal ideja turi pagetinti userio goalsus, bet fronte teisingai nepaima user id, hardcodintas veikia, extractinant is tokeno - ne.
