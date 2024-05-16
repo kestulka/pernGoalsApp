@@ -1,20 +1,23 @@
-import { React, useState, useEffect } from "react";
+import { React, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { setGoals } from "../../Features/goalsSlice";
+import { logout } from "../../Features/authSlice";
 
 function MainPage() {
-  // log outinimo funkcija dedu cia, nes paprasciau su navigate nei window.location back'e
+  // log outinimo funkcija dedu maine, nes paprasciau su navigate nei window.location back'e
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [goals, setGoals] = useState([]);
+  const { goals } = useSelector((state) => state.goals);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
+    if (!token) {
+      console.error("No token found, redirecting to login");
+      navigate("/login");
+      return;
+    }
     const fetchGoals = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("No token found, redirecting to login");
-        navigate("/login");
-        return;
-      }
       try {
         const response = await fetch("/api/goals", {
           method: "GET",
@@ -25,11 +28,12 @@ function MainPage() {
         });
         if (response.ok) {
           const data = await response.json();
-          setGoals(data);
+          dispatch(setGoals(data));
         } else {
           console.error("Failed to fetch goals:", response.statusText);
           // unauthorized redirect
           if (response.status === 401) {
+            dispatch(logout());
             navigate("/login");
           }
         }
@@ -38,10 +42,10 @@ function MainPage() {
       }
     };
     fetchGoals();
-  }, [navigate]);
+  }, [dispatch, navigate, token]);
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    dispatch(logout());
     navigate("/login");
   };
 

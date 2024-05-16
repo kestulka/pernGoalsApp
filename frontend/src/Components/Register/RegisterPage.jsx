@@ -1,12 +1,15 @@
 import { React, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../Features/authSlice";
+import { useNavigate } from "react-router-dom";
 import styles from "./RegisterPage.module.css";
 
-import { useNavigate } from "react-router-dom";
-
 function RegisterPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   // grazina i log in page
   const handleBackToLogin = () => {
@@ -25,22 +28,25 @@ function RegisterPage() {
         },
         body: JSON.stringify({ username, password, role: "simple" }),
       });
-      // jei viskas ok console loginam duomenis ir naviguojam i login page
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        navigate("/login");
-      } else {
-        throw new Error("Failed to register");
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to register");
       }
+      const data = await response.json();
+      dispatch(setCredentials({ user: data.user, token: data.token }));
+      navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);
+      setError(error.message);
     }
   };
 
   return (
     <div>
       <h2>Register Form</h2>
+      {/* rodom errora jei toks yra: */}
+      {error && <p>{error}</p>}
       <div className={styles.registerContainer}>
         <input
           type="text"
