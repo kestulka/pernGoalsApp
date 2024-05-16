@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setCredentials } from "../../Features/authSlice";
+import { useNavigate } from "react-router-dom";
 import styles from "./LoginPage.module.css";
 
-import { useNavigate } from "react-router-dom";
-
 function LoginPage() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,9 +30,8 @@ function LoginPage() {
         throw new Error("Failed to login");
       }
 
-      const data = await response.json();
-      console.log("Logged in sucessfully:", data); // kol kas consolej, pabaigus developmenta tokenas randamas localstorage
-      localStorage.setItem("token", data.token);
+      const { user, token } = await response.json();
+      dispatch(setCredentials({ user, token }));
       navigate("/");
     } catch (error) {
       console.error("Login error", error);
