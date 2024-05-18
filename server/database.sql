@@ -59,6 +59,7 @@ ALTER COLUMN role TYPE VARCHAR(255);
 -- SELECT * FROM <table>;
 
 -- !POSTGRES START/END/RESTART COMMANDS:
+-- nepamirstam serveri stopinti atsijunge is psql
 
 -- pg_ctl start -D "C:/Program Files/PostgreSQL/16/data"
 -- pg_ctl stop -D "C:/Program Files/PostgreSQL/16/data"

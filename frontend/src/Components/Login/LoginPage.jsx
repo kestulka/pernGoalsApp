@@ -30,9 +30,18 @@ function LoginPage() {
         throw new Error("Failed to login");
       }
 
-      const { user, token } = await response.json();
+      const data = await response.json();
+      const { user, token } = data;
+      if (!user) {
+        throw new Error("User data is missing in response");
+      }
       dispatch(setCredentials({ user, token }));
-      navigate("/");
+      // navigation based on role
+      if (user.role === "admin") {
+        navigate("/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       console.error("Login error", error);
       setError("Failed to login. Please check your credentials.");

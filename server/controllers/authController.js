@@ -41,7 +41,7 @@ const loginUser = async (req, res) => {
       "druskytepipiriukai",
       { expiresIn: "1h" },
     );
-    res.json({ token });
+    res.json({ user: user.rows[0], token });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server Error");

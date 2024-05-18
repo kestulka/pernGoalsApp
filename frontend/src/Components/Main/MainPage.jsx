@@ -19,7 +19,7 @@ function MainPage() {
     }
     const fetchGoals = async () => {
       try {
-        const response = await fetch("/api/goals", {
+        const response = await fetch("http://localhost:5000/api/goals/userId", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -61,9 +61,11 @@ function MainPage() {
         </button>
       </nav>
       <main>
-        {goals.map((goal) => (
-          <div key={goal.id}>{goal.goal_description}</div>
-        ))}
+        <ul>
+          {goals.map((goal) => (
+            <li key={goal.id}>{goal.goal_description}</li>
+          ))}
+        </ul>
       </main>
     </div>
   );
