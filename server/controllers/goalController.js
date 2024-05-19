@@ -78,10 +78,12 @@ const addGoalCategory = async (req, res) => {
 
 const getGoalCategories = async (req, res) => {
   try {
+    console.log("Fetching goals categories...");
     const allCategories = await pool.query("SELECT * FROM goal_categories");
+    console.log("Fetched categories:", allCategories.rows);
     res.json(allCategories.rows);
   } catch (error) {
-    console.error(error.message);
+    console.error("Error fetching goal categories:", error.message);
     res.status(500).send("Server Error");
   }
 };
