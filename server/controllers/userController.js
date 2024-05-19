@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const getUsers = async (req, res) => {
   try {
     const allUsers = await pool.query("SELECT * FROM users");
+    res.json(allUsers.rows);
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server Error");

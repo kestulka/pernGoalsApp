@@ -1,7 +1,7 @@
 const pool = require("../db");
 const bcrypt = require("bcrypt");
 
-//! cd to server/scripts and run node createAdminUser.js
+//! cd to server/scripts and run in terminal: node createAdminUser.js
 
 const createAdminUser = async () => {
   try {
